@@ -1,0 +1,39 @@
+RFC 4180 formalized CSV. It defines the MIME type "text/csv", and CSV files that follow its rules should be very widely portable. Among its requirements:
+
+    MS-DOS-style lines that end with (CR/LF) characters (optional for the last line)
+    An optional header record (there is no sure way to detect whether it is present, so care is required when importing).
+    Each record "should" contain the same number of comma-separated fields.
+    Any field may be quoted (with double quotes).
+    Fields containing a line-break, double-quote, and/or commas should be quoted. (If they are not, the file will likely be impossible to process correctly).
+    A (double) quote character in a field must be represented by two (double) quote characters.
+
+
+https://en.wikipedia.org/wiki/Comma-separated_values
+
+
+
+1. All records in a csv file have the same number of fileds.
+2. If the records have multiple fields, the field separator is a literal, often a comma.
+3. If the records have only one field, no field separator presents.
+4. To identify the beginning of a record. We need three symbols: part I the beginning of line symbol, part II whitespace(s), part III the beginning symbol of a field.
+5. To identify the end of a record. We need three symbols: part I the end of a filed symbol, part II whitespace(s), part III the end of line symbol.
+6. A record is defined by from inclusive part 4 III to inclusive part 5 I.
+7. the beginning symbol of a field can be identified by
+7.1 I beginning of stream with, II with or without white space(s), III end of line 
+7.2 I beginning of stream with, II with or without white space(s), III field separator
+7.3 I beginning of stream with, II with or without white space(s), III field separator
+
+
+
+1. All records in a csv file have the same number of fileds.
+2. If the records have multiple fields, the field separator is a literal, often a comma.
+3. If the records have only one field, no field separator presents.
+4. To identify the beginning of a record. We need three symbols: part I the beginning of line symbol, part II whitespace(s), part III the beginning symbol of a field.
+5. To identify the end of a record. We need three symbols: part I the end of a filed symbol, part II whitespace(s), part III the end of line symbol.
+6. A record is defined by from inclusive part 4 III to inclusive part 5 I.
+7. the beginning symbol of a field can be identified by
+7.1 I beginning of stream with, II with or without white space(s), III end of line 
+7.2 I beginning of stream with, II with or without white space(s), III field separator
+7.3 I beginning of stream with, II with or without white space(s), III field separator
+
+

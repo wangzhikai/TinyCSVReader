@@ -28,3 +28,4 @@ src/main/resources/rebel.xml
 .buildpath
 .metadata
 /target/
+*~
