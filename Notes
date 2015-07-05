@@ -11,20 +11,15 @@ RFC 4180 formalized CSV. It defines the MIME type "text/csv", and CSV files that
 https://en.wikipedia.org/wiki/Comma-separated_values
 
 
+A field can be identified by the following conditions, suppose the input has no redundant whitespace(s).
+I. if it begins with a literal/character that is not a double quote, then it contains only characters that are not the field separator (usually we use the character comma) with a trailing comma or end of line.
+II. if it begins with a character that is the double quote, then the field begins with odd count of double quotes and end with odd count of double quotes, and there is no odd count of double quotes in between, it also the trailing comma or end of line.
+III If none of the above is satisfied, it is an empty field.
 
-1. All records in a csv file have the same number of fileds.
-2. If the records have multiple fields, the field separator is a literal, often a comma.
-3. If the records have only one field, no field separator presents.
-4. To identify the beginning of a record. We need three symbols: part I the beginning of line symbol, part II whitespace(s), part III the beginning symbol of a field.
-5. To identify the end of a record. We need three symbols: part I the end of a filed symbol, part II whitespace(s), part III the end of line symbol.
-6. A record is defined by from inclusive part 4 III to inclusive part 5 I.
-7. the beginning symbol of a field can be identified by
-7.1 I beginning of stream with, II with or without white space(s), III end of line 
-7.2 I beginning of stream with, II with or without white space(s), III field separator
-7.3 I beginning of stream with, II with or without white space(s), III field separator
+The end of a record can be identified by as a field followed directly by the end of line symbol or the end of file symbol. 
 
 
-
+==== Draft abondoned== 
 1. All records in a csv file have the same number of fileds.
 2. If the records have multiple fields, the field separator is a literal, often a comma.
 3. If the records have only one field, no field separator presents.
