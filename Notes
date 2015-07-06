@@ -8,7 +8,7 @@ RFC 4180 formalized CSV. It defines the MIME type "text/csv", and CSV files that
     A (double) quote character in a field must be represented by two (double) quote characters.
 
 
-https://en.wikipedia.org/wiki/Comma-separated_values
+https://en.wikipedia.org/wiki/Comma-separated_values last retrieved July 4,2015.
 
 
 A field can be identified by the following conditions, suppose the input has no redundant whitespace(s).
