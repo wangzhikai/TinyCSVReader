@@ -28,7 +28,19 @@ b5,,d5
 		//TODO handle empty cell first ^[,|$|"+endOfLineSymbol+"|\\\n|\\\Z]
 		//TODO handle \\\Z
 		//TODO define field separator
-		final String fieldDef1 = useMultiLines+"^[^\\\"].*?[,|$|"+endOfLineSymbol+"|\\\n]";
+		// When a field is not started with a double quote, it does not have to be multi-lined.
+		
+		//TODO Need a haul for $ differing \\\n, see testIsDollarEndOfLineSame
+		final String fieldDef1 = "^[^\\\"].*?[,|$|"+endOfLineSymbol+"|\\\n]";
+/*
+=====
+|
+,|__p1
+----
+b5,,d5
+=====		
+ */
+		
 		final String fieldDef2 = useMultiLines+"^[\\\"]([\\\"][\\\"])*.*?[\\\"]([\\\"][\\\"])*[,|$|"+endOfLineSymbol+"]";
 		final String fieldDef3 = useMultiLines+"^[,|$|"+endOfLineSymbol+"]";
 		{
@@ -70,6 +82,28 @@ b5,,d5
 
 		}	
 		
+	}
+	
+	@Test 
+	public void testIsDollarEndOfLineSame () {
+		String data1 = "a\nb";
+		String data2 = "a\n";
+		final String endOfLineSymbol = System.getProperty("line.separator");
+		for (String s: data1.split(endOfLineSymbol)) {
+			System.out.println("|"+s+"|");
+		}
+		System.out.println("=====");
+		for (String s: data1.split("$")) {
+			System.out.println("|"+s+"|");
+		}
+
+/*
+|a|
+|b|
+=====
+|a
+b|		
+ */
 	}
 	@Test
 	public void testMultilinesRegex() {
