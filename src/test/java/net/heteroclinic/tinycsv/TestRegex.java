@@ -9,6 +9,159 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 public class TestRegex {
+	// TODO test group
+	@Test
+	public void testGroup () {
+		final String data1 = "aa,a\n"
+				+ "bbb\n";
+		final String data2 = "aaa\n"
+				+ "b,bb\n"
+				+ "ccc";
+		{
+			System.out.println("1");
+			Pattern p1 = Pattern.compile("((a*?)|(b*?)|(c*?))([,]|[\\\n])");
+			Matcher m1 = p1.matcher(data1);
+			Matcher m2 = p1.matcher(data2);
+			while (m1.find()) {
+				System.out.println("m1.start()="+m1.start());
+				System.out.println("m1.end()="+m1.end());//Returns the offset after the last character matched.
+			}
+			while  (m2.find()) {
+				System.out.println("m2.start()="+m2.start());
+				System.out.println("m2.end()="+m2.end());
+			}
+		}
+		
+	}
+	// TODO test or condition
+	@Test
+	public void testOrCondition () {
+		final String data1 = "aa,a\n"
+				+ "bbb\n";
+		final String data2 = "aaa\n"
+				+ "b,bb\n"
+				+ "ccc";
+		{
+			System.out.println("1");
+			Pattern p1 = Pattern.compile("(?s),|[\\\n]");
+			Matcher m1 = p1.matcher(data1);
+			Matcher m2 = p1.matcher(data2);
+			while (m1.find()) {
+				System.out.println("m1.start()="+m1.start());
+				System.out.println("m1.end()="+m1.end());//Returns the offset after the last character matched.
+			}
+			while  (m2.find()) {
+				System.out.println("m2.start()="+m2.start());
+				System.out.println("m2.end()="+m2.end());
+			}
+		}
+	}
+	
+	@Test
+	public void testMisc () {
+		//System.out.println(System.getProperty("line.separator")); ="\n"
+		// input is a Java String
+		final String data1 = "aaa\n"
+				+ "bbb\n";
+		final String data2 = "aaa\n"
+				+ "bbb\n"
+				+ "ccc";
+		// TODO find line separator
+		{
+			System.out.println("1");
+			Pattern p1 = Pattern.compile("(?s).*?[\\\n]");
+			Matcher m1 = p1.matcher(data1);
+			Matcher m2 = p1.matcher(data2);
+			while (m1.find()) {
+				System.out.println("m1.start()="+m1.start());
+				System.out.println("m1.end()="+m1.end());//Returns the offset after the last character matched.
+			}
+			while  (m2.find()) {
+				System.out.println("m2.start()="+m2.start());
+				System.out.println("m2.end()="+m2.end());
+			}
+		}
+		
+		// TODO find $
+		{
+			System.out.println("2");
+			Pattern p1 = Pattern.compile("(?s).*?$");
+			Matcher m1 = p1.matcher(data1);
+			Matcher m2 = p1.matcher(data2);
+			while  (m1.find()) {
+				System.out.println("m1.start()="+m1.start());
+				System.out.println("m1.end()="+m1.end());
+			}
+			while  (m2.find()) {
+				System.out.println("m2.start()="+m2.start());
+				System.out.println("m2.end()="+m2.end());
+			}
+		}
+		// TODO find System.getProperty("line.separator")
+		{
+			System.out.println("3");
+			Pattern p1 = Pattern.compile("(?s).*?["+System.getProperty("line.separator")+"]");
+			Matcher m1 = p1.matcher(data1);
+			Matcher m2 = p1.matcher(data2);
+			while  (m1.find()) {
+				System.out.println("m1.start()="+m1.start());
+				System.out.println("m1.end()="+m1.end());
+			}
+			while  (m2.find()) {
+				System.out.println("m2.start()="+m2.start());
+				System.out.println("m2.end()="+m2.end());
+			}
+		}
+		// TODO find '$' literal
+		{
+			System.out.println("4");
+			Pattern p1 = Pattern.compile("(?s).*?[$]");
+			Matcher m1 = p1.matcher(data1);
+			Matcher m2 = p1.matcher(data2);
+			while  (m1.find()) {
+				System.out.println("m1.start()="+m1.start());
+				System.out.println("m1.end()="+m1.end());
+			}
+			while  (m2.find()) {
+				System.out.println("m2.start()="+m2.start());
+				System.out.println("m2.end()="+m2.end());
+			}
+		}
+/*
+1
+m1.start()=0
+m1.end()=4
+m1.start()=4
+m1.end()=8
+m2.start()=0
+m2.end()=4
+m2.start()=4
+m2.end()=8
+2
+m1.start()=0
+m1.end()=7
+m1.start()=7
+m1.end()=7
+m1.start()=8
+m1.end()=8
+m2.start()=0
+m2.end()=11
+m2.start()=11
+m2.end()=11
+3
+m1.start()=0
+m1.end()=4
+m1.start()=4
+m1.end()=8
+m2.start()=0
+m2.end()=4
+m2.start()=4
+m2.end()=8
+4
+		
+ */
+	}
+	
 	@Test 
 	public void testRemoveFieldLoops() throws FileNotFoundException {
 		final String endOfLineSymbol = System.getProperty("line.separator");
