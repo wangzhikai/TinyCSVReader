@@ -9,6 +9,76 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 public class TestRegex {
+
+	@Test 
+	public void testParseRecords () throws FileNotFoundException {
+		{//missing line
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 4 ===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					//+ "((((.*?)[\\\"](.*?))((.*?)[\\\"](.*?)))*?)"
+					+ "((((.*?)[\\\"](.*?)[\\\"](.*?))*?)|([^\\\"]*?))"
+					+ "([\\\n]|$)"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+
+		{
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile1").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 3 ===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					//+ "((((.*?)[\\\"](.*?))((.*?)[\\\"](.*?)))*?)"
+					+ "((((.*?)[\\\"](.*?)[\\\"](.*?))*?)|([^\\\"]*?))"
+					+ "([\\\n]|$)"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+
+		{//missing rows, wrong
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile1").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 2 ===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "(.*?)((((.*?)[\\\"](.*?))((.*?)[\\\"](.*?)))*?)(.*?)"
+					+ "([\\\n]|$)"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+		{//missing rows
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile1").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 1 ===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "((((.*?)[\\\"](.*?))((.*?)[\\\"](.*?)))*?)"
+					+ "([\\\n])"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+	}
+
+	
 	//TODO test quotes appear even times
 	@Test 
 	public void testFindNewLineAfterEvenQuotesCount () {
