@@ -11,6 +11,20 @@ RFC 4180 formalized CSV. It defines the MIME type "text/csv", and CSV files that
 https://en.wikipedia.org/wiki/Comma-separated_values last retrieved July 4,2015.
 
 
+==== Draft  ===
+So it is important to identify or count the appearance of double quote literal.
+Here we shorten it to quote. 
+If quotes appear continuously in odd times, the first quote it is a field border.
+A record separator can be a new line literal. Before it, the field borders must appear even number of times, otherwise it is a literal inside a field. Namely a record separator is a new line with "quotes appearing continuously in odd times" appears even times before it. Further, the next valid new line as a record separator has always even number count of quotes before it.
+A fields separator can be a comma literal. Same as the record separator,  "quotes appearing continuously in odd times" appears even times before it always.
+A field can be an empty String. A record can be an empty line. A whole file can be empty. If we don't handle them, we may halt the program before an expected exit/end.
+
+
+
+
+
+
+==== Draft abondoned== 
 A field can be identified by the following conditions, suppose the input has no redundant whitespace(s).
 I. if it begins with a literal/character that is not a double quote, then it contains only characters that are not the field separator (usually we use the character comma) with a trailing comma or end of line.
 II. if it begins with a character that is the double quote, then the field begins with odd count of double quotes and end with odd count of double quotes, and there is no odd count of double quotes in between, it also the trailing comma or end of line.

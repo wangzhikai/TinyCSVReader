@@ -9,28 +9,71 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 public class TestRegex {
-	// TODO test group
+	//TODO test quotes appear even times
+	
+	@Test 
+	public void testSwitchPatternsNotWork () {
+		final String data = "aaa\n"
+				+ "b,bb\n"
+				+ "aaa\n"
+				+ "b,bb\n"
+				+ "b,bb\n"
+				+ "ccc";
+		Pattern p1 = Pattern.compile("(?s)(a*?)([,]|[\\\n]|$)");
+		Matcher m1 = p1.matcher(data);
+		Pattern p2 = Pattern.compile("(?s)(b*?)([,]|[\\\n]|$)");
+// infinite loop		
+//		while (m1.find()) {
+//			System.out.println("|"+data.substring(m1.start(), m1.end())+"|");
+//			m1 = p2.matcher(data);
+//		}
+		
+	}
+
+	
 	@Test
 	public void testGroup () {
+		// TODO test group
 		final String data1 = "aa,a\n"
 				+ "bbb\n";
 		final String data2 = "aaa\n"
 				+ "b,bb\n"
 				+ "ccc";
 		{
-			System.out.println("1");
-			Pattern p1 = Pattern.compile("((a*?)|(b*?)|(c*?))([,]|[\\\n])");
+			
+			Pattern p1 = Pattern.compile("((a*?)|(b*?)|(c*?))([,]|[\\\n]|$)");
 			Matcher m1 = p1.matcher(data1);
-			Matcher m2 = p1.matcher(data2);
+			Pattern p2 = Pattern.compile("((a*?)|(b*?)|(c*?))([,]|[\\\n]|$)");
+			Matcher m2 = p2.matcher(data2);
+			System.out.println("1");
 			while (m1.find()) {
-				System.out.println("m1.start()="+m1.start());
-				System.out.println("m1.end()="+m1.end());//Returns the offset after the last character matched.
+				//System.out.println("m1.start()="+m1.start());
+				//System.out.println("m1.end()="+m1.end());//Returns the offset after the last character matched.
+				System.out.println("|"+data1.substring(m1.start(), m1.end())+"|");
 			}
+			System.out.println("2");
 			while  (m2.find()) {
-				System.out.println("m2.start()="+m2.start());
-				System.out.println("m2.end()="+m2.end());
+				//System.out.println("m2.start()="+m2.start());
+				//System.out.println("m2.end()="+m2.end());
+				System.out.println("|"+data2.substring(m2.start(), m2.end())+"|");
 			}
 		}
+		/*
+1
+|aa,|
+|a
+|
+|bbb
+|
+||
+2
+|aaa
+|
+|b,|
+|bb
+|
+|ccc|
+||		 */
 		
 	}
 	// TODO test or condition
