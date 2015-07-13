@@ -10,6 +10,60 @@ import org.junit.Test;
 
 public class TestRegex {
 	//TODO test quotes appear even times
+	@Test 
+	public void testFindNewLineAfterEvenQuotesCount () {
+		final String data = 
+				"\"\n\"\n"
+				+ "\"\"\"\"\n"
+				+ "\"\"\n\"\"\n"
+				+ "a\"\"\"\"\n\n"
+				+ "a\"aa\na\"\"bbb\"\n"
+				+ "\"\"\"\"\"\n\"\"\"\n";
+		{
+			System.out.println("=== 2 ===");
+			Pattern p = Pattern.compile("(?s)"
+					+ "("
+					+ "(((.*?)[\\\"](.*?))((.*?)[\\\"](.*?)))*?"
+					+ "[\\\n]"
+					+ ")");
+			Matcher m = p.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+/*
+=== 2 ===
+|"
+"
+|
+----
+|""""
+|
+----
+|""
+|
+----
+|""
+|
+----
+|a""""
+|
+----
+|
+|
+----
+|a"aa
+a""bbb"
+|
+----
+|"""""
+"""
+|
+----
+
+ */
+		}
+	}
 	
 	@Test 
 	public void testSwitchPatternsNotWork () {
