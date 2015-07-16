@@ -7,8 +7,172 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
-
+// Note : http://docs.oracle.com/javase/tutorial/essential/regex/bounds.html -- 20150706
+// says $ is The end of a line in fact in (?s) mode it is end of String
+// end of line should be system property line separator.
 public class TestRegex {
+	//TODO Find two quotes each time then new line
+	@Test 
+	public void testFindTwoQuotesNewLineLoop () throws FileNotFoundException {
+		{
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+			//final String data = "asbc\ndef\n\"cdf\ntpq";
+
+			System.out.println("=== 5 find 1. string has even quotes + new line or 2. string has no quotes with + new line added last match===");
+			// the or conditions should be mutual exclude or the parser may be confused. maybe that is former cases are not expected.
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "(\\G"
+					+ "([^\\\"]*?)"
+					+ "([\\\n]|$))"
+					+ "|"
+					+ "(\\G"
+					+ "((([^\\\n]*?)[\\\"](.*?)[\\\"]([^\\\n]*?))+?)"
+					+ "([\\\n]|$))"
+					+ ")" );
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+		{
+			//final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+			final String data = "asbc\ndef\n\"cdf\ntpq";
+
+			System.out.println("=== 4 find string has no quote end with new line since last match===");
+			// the or conditions should be mutual exclude or the parser may be confused. maybe that is former cases are not expected.
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "\\G"
+					+ "([^\\\"]*?)"
+					+ "([\\\n]|$)"
+					+ ")" );
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+		{
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 3 find string has no quote end with new line ===");
+			// the or conditions should be mutual exclude or the parser may be confused. maybe that is former cases are not expected.
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "([^\\\"]*?)"
+					+ "([\\\n]|$)"
+					+ ")" );
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}
+		{
+			
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 2 find string has exactly two quotes ===");
+			// the or conditions should be mutual exclude or the parser may be confused. maybe that is former cases are not expected.
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "(.*?)[\\\"](.*?)[\\\"]"
+					+ ")" );
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}		
+		{
+			
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 1 find 1. string has two quotes or 2. no quotes with end of line===");
+			// the or conditions should be mutual exclude or the parser may be confused. maybe that is former cases are not expected.
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "(.*?)[\\\"](.*?)[\\\"]"
+					+ ")"
+					+ "|"
+					+ "(([^\\\"].*?)([\\\n]))");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}		
+		
+	}
+	@Test 
+	public void testFindTwoQuotes () throws FileNotFoundException {
+		
+		// not working well
+		{
+			
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 4 find quotes appearing even times (including zero?) and nearest return===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "((([^\\\"]*?)[\\\"]([^\\\"]*?)[\\\"]([^\\\"]*?))*?)"
+					+ "([\\\n]|$)"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}		
+		{
+			
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 3 find two quotes ONLY and nearest return===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "([^\\\"]*?)[\\\"]([^\\\"]*?)[\\\"]([^\\\"]*?)[\\\n]"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}		
+		{
+			
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 2 ===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "(.*?)[\\\"](.*?)[\\\"](.*?)[\\\n]"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}		
+		{
+			
+			final String data =  new Scanner(new File(this.getClass().getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+
+			System.out.println("=== 1 ===");
+			Pattern patternForRecord = Pattern.compile("(?s)"
+					+ "("
+					+ "(.*?)[\\\"](.*?)[\\\"]"
+					+ ")");
+			Matcher m = patternForRecord.matcher(data);
+			while (m.find()) {
+				System.out.println("|"+data.substring(m.start(), m.end())+"|");
+				System.out.println("----");
+			}
+		}		
+	}
+	
 
 	@Test 
 	public void testParseRecords () throws FileNotFoundException {
