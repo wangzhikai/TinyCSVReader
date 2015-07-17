@@ -11,6 +11,43 @@ import org.junit.Test;
 // says $ is The end of a line in fact in (?s) mode it is end of String
 // end of line should be system property line separator.
 public class TestRegex {
+	@Test 
+	public void testSplit()  {
+		{
+			System.out.println("\n=== 1 ===="); 
+			
+			String data = ",";
+			String [] arr = data.split(",");
+			System.out.println(arr.length);
+			System.out.print("|");
+			for (String s : arr) {
+				System.out.print(s+"|");
+			}
+		}
+		{
+			System.out.println("\n=== 2 ===="); 
+			
+			String data = "a,";
+			String [] arr = data.split(",");
+			System.out.println(arr.length);
+			System.out.print("|");
+			for (String s : arr) {
+				System.out.print(s+"|");
+			}
+		}
+		{
+			System.out.println("\n=== 3 ===="); 
+			
+			String data = ",b";
+			String [] arr = data.split(",");
+			System.out.println(arr.length);
+			System.out.print("|");
+			for (String s : arr) {
+				System.out.print(s+"|");
+			}
+		}
+	}
+	
 	//TODO Find two quotes each time then new line
 	@Test 
 	public void testFindTwoQuotesNewLineLoop () throws FileNotFoundException {
