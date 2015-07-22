@@ -26,37 +26,40 @@ public class TinyCSVReader {
 					+ "((([^\\\n]*?)[\\\"](.*?)[\\\"]([^\\\n]*?))+?)"
 					+ "([\\\n]|$))"
 					+ ")" );
+			Pattern patternForField = Pattern.compile("(?s)"
+					+ "("
+					+ "(\\G"
+					+ "([^\\\"]*?)"
+					+ "([,]|$))"
+					+ "|"
+					+ "(\\G"
+					+ "((([^,]*?)[\\\"](.*?)[\\\"]([^,]*?))+?)"
+					+ "([,]|$))"
+					+ ")" );
 			Matcher m = patternForRecord.matcher(data);
 			while (m.find()) {
-				//System.out.println("|"+data.substring(m.start(), m.end())+"|");
-				//System.out.println("----");
 				String record = data.substring(m.start(), m.end());
 				if (record.trim().length() <= 0)
 					continue;
-				if (!record.contains("\"")) {
-					record = record.replaceAll("\n$", "");
-					// split is not a good idea see split test
-					Pattern regularCommaPattern = Pattern.compile("(.*?)(,)");
-					Matcher regularCommaMatcher = regularCommaPattern.matcher(record);
-					System.out.print("|");
-					int commaCount = 0;
-					int consumedLength = 0;
-					while (regularCommaMatcher.find()) {
-						String field = record.substring(regularCommaMatcher.start(),regularCommaMatcher.end());
-						// remove trailing ","
-						consumedLength += field.length();
+				// replace the trailing 
+				record = record.replaceAll("\n$", "");
+				//System.out.println(record);
+				Matcher m2 = patternForField.matcher(record);
+				System.out.print("|");
+				recordLoop: while (m2.find()) {
+					String field = record.substring(m2.start(), m2.end());
+					// replace the trailing 
+					// if field does not have a comma at the end, it is the last field
+					if ( field.length() > 0 && (field.lastIndexOf(",") == field.length()-1)) {
 						field = field.replaceAll(",$", "");
-						System.out.print(field);
-						System.out.print("|");
-						commaCount++;						
+						System.out.print(field+"|");
+					} else {
+						System.out.print(field+"|");
+						break recordLoop;
 					}
-					String field  = record.substring(consumedLength);
-					System.out.print(field);
-					System.out.print("|");
-				} else {
-					
 				}
-				System.out.println("\n----------");
+				System.out.println();
+				System.out.println("----------");
 			}
 		}
 	}
