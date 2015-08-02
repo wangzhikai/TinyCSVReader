@@ -5,14 +5,21 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * <p/>
+ * <p/>
+ * Tiny CSV Reader
+ * <p>Third party licenses/rights are automatically cascaded.</p>
+ * Given you keep this header, you can do anything with this program.
+ * @author Zhikai Wang/www.heteroclinic.net
+ * Reference " https://en.wikipedia.org/wiki/Comma-separated_values last retrieved June,2015.
+ */
 public class TinyCSVReader {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		{
 			// Need copy test/resources files to main/resources folder
-			final String data =  new Scanner(new File(TinyCSVReader.class.getClassLoader().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
-			//! final String data =  new Scanner(new File(new TinyCSVReader ().getClass().getResource("testfile2").getFile())).useDelimiter("\\Z").next();
+			final String data =  new Scanner(new File(TinyCSVReader.class.getClassLoader().getResource("testfile3").getFile())).useDelimiter("\\Z").next();
 
 			System.out.println("=== 1 ===");
 			// the or conditions should be mutual exclude or the parser may be confused. maybe that is former cases are not expected.

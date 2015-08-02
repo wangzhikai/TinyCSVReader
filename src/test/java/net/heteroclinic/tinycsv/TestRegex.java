@@ -7,6 +7,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
+
+/**
+ * <p/>
+ * <p/>
+ * Tiny CSV Reader
+ * <p>Third party licenses/rights are automatically cascaded.</p>
+ * Given you keep this header, you can do anything with this program.
+ * @author Zhikai Wang/www.heteroclinic.net
+ * Reference " https://en.wikipedia.org/wiki/Comma-separated_values last retrieved June,2015.
+ */
 // Note : http://docs.oracle.com/javase/tutorial/essential/regex/bounds.html -- 20150706
 // says $ is The end of a line in fact in (?s) mode it is end of String
 // end of line should be system property line separator.
